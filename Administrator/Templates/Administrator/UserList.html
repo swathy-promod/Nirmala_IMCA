@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserList</title>
+</head>
+<body>
+    <table border="2" align="center">
+        <tr>
+            <td>SlNO</td>
+            <td>Photo</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Contact</td>
+            <td>Address</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Date Of Join</td>
+            <td>Action</td>
+        </tr>
+        {% for i in userdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><img src="{{i.user_photo.url}}" width="100"></td>
+            <td>{{i.user_name}}</td>
+            <td>{{i.user_email}}</td>
+            <td>{{i.user_contact}}</td>
+            <td>{{i.user_address}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{{i.user_doj}}</td>
+            <td>
+                {% if i.user_status  == 0 %}
+                UnBlocked
+                <a href="{% url 'Admin:Block' i.id %}">Block</a>
+                {% elif i.user_status == 1 %}
+                Blocked
+                <a href="{% url 'Admin:UnBlock' i.id %}">UnBlock</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Admin:userlist' %}"
+</script>
+{% endif %}
